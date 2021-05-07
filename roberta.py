@@ -12,8 +12,6 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-# import model and Tokenizer
-
 # get paths to TensorFlow XLM-RoBERTa base and large models
 roberta_base = "jplu/tf-xlm-roberta-base"
 roberta_large = 'jplu/tf-xlm-roberta-large'
@@ -148,10 +146,6 @@ if __name__ == '__main__':
     # build model
     K.clear_session()
     model = build_model(roberta_large, max_len=MAX_LEN, learning_rate=LR_RATE)
-
-    # save best model from each fold
-    sv = tf.keras.callbacks.ModelCheckpoint(f'fold-{fold}.h5', monitor='val_loss', verbose=0,
-                                            save_best_only=True, save_weights_only=True, mode='min')
 
     train_ds = to_tf_dataset(
         train.loc[train_index], labeled=True, shuffle=True, repeat=True, max_len=MAX_LEN)
